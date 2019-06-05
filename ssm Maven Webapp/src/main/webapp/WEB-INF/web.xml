@@ -5,23 +5,30 @@
 		xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" 
 		version="2.5">
 
-	<!-- 1 启动Spring的容器 -->
+	<!-- 1.spring的配置文件  -->
 	<context-param>
     	<param-name>contextConfigLocation</param-name>
-    	<param-value>classpath:applicationContext.xml</param-value>
+    	<param-value>classpath:spring.xml</param-value>
 	</context-param>
+	
+	<!-- 2.Spring监听器 -->
 	<listener> 
     	<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
  	</listener>
+ 	
+ 	<!-- 3.防止Spring内存溢出监听器 -->
+	<listener>
+		<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
+	</listener>
 	
-	<!-- 2 springmvc的前端控制器，拦截所有请求 -->	
+	<!-- 4.springmvc的前端控制器，拦截所有请求 -->	
  	<servlet> 
  		<servlet-name>dispatcherServlet</servlet-name> 
  		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class> 	
 		<init-param>
+		<!-- springmvc的配置文件 -->
 			<param-name>contextConfigLocation</param-name>
-			<!-- dispatcherServlet-servlet可以改名为springmvc -->
-			<param-value>classpath:dispatcherServlet-servlet.xml</param-value>
+			<param-value>classpath:spring-mvc.xml</param-value>
 		</init-param>
  		<load-on-startup>1</load-on-startup> 
  	</servlet> 
@@ -30,7 +37,7 @@
  		<url-pattern>*.do</url-pattern>
   	</servlet-mapping>
 	
-	<!-- 3 字符编码过滤器,一定要放在所有过滤器之前 -->
+	<!-- 5. 字符编码过滤器,一定要放在所有过滤器之前 -->
 	<filter>
 		<filter-name>CharacterEncodingFilter</filter-name>
 		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
@@ -52,7 +59,7 @@
         	<url-pattern>/*</url-pattern>
    		</filter-mapping>
 		
-	<!-- 4 使用Rest风格的URI，将普通的post请求转为指定的delete或者put请求 -->
+	<!-- 6. 使用Rest风格的URI，将普通的post请求转为指定的delete或者put请求 -->
 	<filter>
 		<filter-name>HiddenHttpMethodFilter</filter-name>
 		<filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
@@ -61,19 +68,10 @@
 		<filter-name>HiddenHttpMethodFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	
-	
+
+	<!-- 7.默认欢迎页面 -->
 	<welcome-file-list>
-		
 		<welcome-file>index.jsp</welcome-file>
-	
-	<!-- <welcome-file>WEB-INF/form-2/index.html</welcome-file>	-->
 	</welcome-file-list>
 
-
-
-
-	
-	
-	
 </web-app>

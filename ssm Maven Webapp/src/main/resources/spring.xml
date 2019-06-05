@@ -20,6 +20,7 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd">
 	
+	<!--组件扫描，扫描除controller以外所有的注解 -->
 	<context:component-scan base-package="com.dancer">
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
 	</context:component-scan>
@@ -61,7 +62,7 @@
 		<property name="dataSource" ref="PooledDataSource"></property>
 	</bean>	
 	<!-- 开启基于注解的事物，使用xml配置形式的事物（必要的都是使用配置式） -->
-	<aop:config>
+	<aop:config proxy-target-class="true">
 		<!-- 切入点表达式 -->
 		<aop:pointcut expression="execution(* com.dancer.crud.service..*(..))" id="txPoint"/>
 		<!-- 配置事物增强 -->
